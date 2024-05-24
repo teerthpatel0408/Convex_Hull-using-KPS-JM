@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Convex Hull Visualization</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="info">
+      <div>
+        <h1 id="title">Convex Hull Visualization tool</h1>
+        <h2 id="text">Algorithms used are : Kirkpatrick Seidel and Jarvis March</h2>
+        <br>
+        <p>In geometry, the convex hull, convex envelope or convex closure of a shape is the smallest convex set that contains it. The convex hull may be defined either as the intersection of all convex sets containing a given subset of a Euclidean space, or equivalently as the set of all convex combinations of points in the subset. For a bounded subset of the plane, the convex hull may be visualized as the shape enclosed by a rubber band stretched around the subset.</p>
+      </div>
+      </div>
+    <div id="app">
+      <div class ="wrapper">
+        <h2>Algorithm Visualiser</h2>
+      <!-- <h1>Convex Hull Visualization</h1> -->
+      <form id="generateForm" action="/generate-points" method="GET">
+        <div id="controls">
+          <label for="points">Number of points:</label>
+          <input type="number" id="points" name="points" value="10" />
+          <button id="generate">Generate Points</button>
+          <button id="visualize">Visualize</button>
+        </div>
+      </form>
+      <form id="generateForm" action="/run-cpp-program" method="GET">
+        <div id="controls">
+          <label for="algorithm">Algorithm:</label>
+          <select id="algorithm" name="algorithm">
+            <option value="jarvis">Jarvis March</option>
+            <option value="kirkpatrick">Kirkpatrick Seidel</option>
+          </select>
+          <button id="run">Run Algorithm</button>
+          <button id="show">Show</button>
+          <input type="file" id="csvFileInput" accept=".csv">
+          <button id="uploadBtn">Upload CSV</button>
+          <!-- <button id="emptyPointsBtn">Empty Points</button> -->
+          <button id="skipAnimation">Skip Animation</button>
+        </div>
+      </form>
+    </div>
+      <div class="contain">
+        <div id="visualization-container">
+          <svg id="svg-container">
+            <!-- Lines will be drawn here -->
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div id="info" class="wrapper">
+      <!-- <br> -->
+      <div>
+      <h2 >Analysis</h2>
+      </div>
+      <div id="grid-container">
+        <div id="grid-child purple">
+          <h3>Kirkpatrick Seidel</h3>
+          <ul>
+            <li>
+          <p>
+            The basic idea of the algorithm is a kind of reversal of the divide-and-conquer algorithm for convex hulls of Preparata and Hong, dubbed "marriage-before-conquest" by the authors.
+          </p>
+        </li>
+        <li>
+          <p>
+            The traditional divide-and-conquer algorithm splits the input points into two equal parts, e.g., by a vertical line, recursively finds convex hulls for the left and right subsets of the input, and then merges the two hulls into one by finding the "bridge edges", bitangents that connect the two hulls from above and below.
+          </p>
+        </li>
+        <li> 
+          <p>
+            The traditional divide-and-conquer algorithm splits the input points into two equal parts, e.g., by a vertical line, recursively finds convex hulls for the left and right subsets of the input, and then merges the two hulls into one by finding the "bridge edges", bitangents that connect the two hulls from above and below.The points on the left and right sides of the splitting line that cannot contribute to the eventual hull are discarded, and the algorithm proceeds recursively on the remaining points. In more detail, the algorithm performs a separate recursion for the upper and lower parts of the convex hull; in the recursion for the upper hull, the noncontributing points to be discarded are those below the bridge edge vertically, while in the recursion for the lower hull the points above the bridge edge vertically are discarded.
+          </p>
+        </li>
+        <li> 
+          <p>
+            At the ith level of the recursion, the algorithm solves at most 2^i subproblems, each of size at most n/2^i. The total number of subproblems considered is at most ℎ, since each subproblem finds a new convex hull edge. The worst case occurs when no points can be discarded and the subproblems are as large as possible; that is, when there are exactly 2^i subproblems in each level of recursion up to level logh. For this worst case, there are O(logh) levels of recursion and O(n) points considered within each level, so the total running time is O(nlogh) as stated. 
+          </p>
+        </li>
+        </ul>
+          <img id="kirck" src="./images/image3.png" alt="kirck"/>
+        </div>
+        <div id="grid-child purple">
+          <h3>Jarvis March</h3>
+          <ul>
+            <li>
+          <p>
+            In computational geometry, the gift wrapping algorithm is an algorithm for computing the convex hull of a given set of points. Its real-life performance compared with other convex hull algorithms is favorable when n is small or h is expected to be very small with respect to n. 
+          </p>
+        </li>
+        <li>
+          <p>
+            For the sake of simplicity, the description below assumes that the points are in general position, i.e., no three points are collinear. The algorithm may be easily modified to deal with collinearity, including the choice whether it should report only extreme points (vertices of the convex hull) or all points that lie on the convex hull.
+          </p>
+        </li>
+        <li>
+          <p>
+            The gift wrapping algorithm begins with i=0 and a point p0 known to be on the convex hull, e.g., the leftmost point, and selects the point pi+1 such that all points are to the right of the line pi pi+1. This point may be found in O(n) time by comparing polar angles of all points with respect to point pi taken for the center of polar coordinates. Letting i=i+1, and repeating with until one reaches ph=p0 again yields the convex hull in h steps. In two dimensions, the gift wrapping algorithm is similar to the process of winding a string (or wrapping paper) around the set of points.
+          </p>
+        </li>
+        <li>
+          <p>
+            The inner loop checks every point in the set S, and the outer loop repeats for each point on the hull. Hence the total run time is O(nh). The run time depends on the size of the output, so Jarvis's march is an output-sensitive algorithm. However, because the running time depends linearly on the number of hull vertices, it is only faster than O(nlog n) algorithms such as Graham scan when the number h of hull vertices is smaller than log n.
+          </p>
+        </li>
+        </ul>
+          <br>
+          <img id="jarvis" src="./images/image2.png" alt="jarvis"/>
+        </div>
+      </div>
+      <div>
+        <h2>Limitations</h2>
+      </div>
+      <div>
+        <p>Jarvis March Algorithm takes O(nh) time in computing the Convex Hull. As a result for large number of points, the output takes a longer time as compared to the Kirkpatrick Seidel Algorithm. </p>
+        <p>Our canvas for visualising the points and Algorithm is of height 800 pixels and width of 1200 pixels. The random point generator uses the range : </p>
+        <ul>
+        <l><p>Xmin = 10 and Xmax = 1150</p></l>
+        <l><p>Ymin = 10 and Ymax = 790</p></l>
+      </ul>
+        <p>As a result theoretically the number of points possible on the canvas are : (Xmax - Xmin) * (Ymax - Ymin), i.e., (1150 - 10) * (790 - 10) = 8,89,200 points. But since the points are of dimension 10px by 10px, generating points above 8000 is not visually helpful. The generated points above 8000 overlap each other and convex hull cannot be visualised properly.</p>
+        <p>So as per the height and width of the canvas used for visualization, ~8000 points are top limit for visualising the convex hull.</p>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
